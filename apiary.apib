@@ -4,25 +4,36 @@ HOST: https://app.pipefy.com
 
 # Pipefy API
 
-This is Database's API documentation.
+This is the Pipe API documentation.
 
 [Here](http://docs.pipefy.apiary.io) you will find the guidelines for getting started with the API.
 
 ## List pipes [/queries{?pipes}]
 
-Get pipes by pipe ids.
+Get pipes by their identifiers.
 
 **Request Body**
 ```
-query {
-  pipes(ids: [1, 2]) {
+{
+  pipes(ids:[123456, 654321]) {
     id
     name
+    phases{
+      name
+      cards (first: 5) {
+        edges {
+          node {
+            id
+            name
+          }
+        }
+      }
+    }
   }
 }
 ```
 
-### pipes(ids: [TABLE_IDS]) [POST]
+### pipes(ids: [PIPE_IDS]) [POST]
 
 + Request (application/json)
 
@@ -33,7 +44,7 @@ query {
     + Body
 
             {
-              "query": "{ pipes(ids: [1, 2]) { id, name } }"
+              "query": "{ pipes (ids: [123456, 654321]) { id, name, phases { name, cards (first: 5) { edges { node { id, name } } } } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -44,12 +55,143 @@ query {
               "data": {
                 "pipes": [
                   {
-                    "id": "1",
-                    "name": "Pizza Order"
+                    "id": "243585",
+                    "name": "Simple To-do List",
+                    "phases": [
+                      {
+                        "name": "To do",
+                        "cards": {
+                          "edges": [
+                            {
+                              "node": {
+                                "id": "2712454",
+                                "title": "Call John"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "Doing",
+                        "cards": {
+                          "edges": [
+                            {
+                              "node": {
+                                "id": "2712458",
+                                "title": "Sales Report"
+                              }
+                            },
+                            {
+                              "node": {
+                                "id": "2712464",
+                                "title": "Financial Report "
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "On hold",
+                        "cards": {
+                          "edges": [
+                            {
+                              "node": {
+                                "id": "2712469",
+                                "title": "Buy more pencils"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "Done",
+                        "cards": {
+                          "edges": [
+                            {
+                              "node": {
+                                "id": "2712480",
+                                "title": "Send email to Peter"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "Archived",
+                        "cards": {
+                          "edges": []
+                        }
+                      }
+                    ]
                   },
                   {
-                    "id": "2",
-                    "name": "Todo List"
+                    "id": "243587",
+                    "name": "Sales Pipeline",
+                    "phases": [
+                      {
+                        "name": "Prospect",
+                        "cards": {
+                          "edges": [
+                            {
+                              "node": {
+                                "id": "2712485",
+                                "title": "Oscorp"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "Discovery",
+                        "cards": {
+                          "edges": [
+                            {
+                              "node": {
+                                "id": "2712489",
+                                "title": "Stark"
+                              }
+                            },
+                            {
+                              "node": {
+                                "id": "2712524",
+                                "title": "Wayne Enterprises"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "Proposal",
+                        "cards": {
+                          "edges": [
+                            {
+                              "node": {
+                                "id": "2712529",
+                                "title": "Jurassic Park"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "name": "Negotiation",
+                        "cards": {
+                          "edges": []
+                        }
+                      },
+                      {
+                        "name": "Won",
+                        "cards": {
+                          "edges": []
+                        }
+                      },
+                      {
+                        "name": "Lost",
+                        "cards": {
+                          "edges": []
+                        }
+                      }
+                    ]
                   }
                 ]
               }
@@ -57,17 +199,17 @@ query {
 
 ## Show pipe [/queries{?pipe}]
 
-Get a pipe by pipe id.
+Get a pipe by its identifier.
 
 **Request Body**
 ```
-query: {
-  pipe(id: 1){
+{
+  pipe(id:123456) {
     id
     name
     phases{
       name
-      cards(first: 1){
+      cards (first: 5) {
         edges{
           node{
             id
@@ -80,7 +222,7 @@ query: {
 }
 ```
 
-### Get pipe by id [POST]
+### pipe(id: [PIPE_ID]) [POST]
 
 + Request (application/json)
 
@@ -91,7 +233,7 @@ query: {
     + Body
 
             {
-              "query": "{ pipe(id: 1) { id, name, phases{ name, cards(first: 1){ edges{ node{ id, title } } } } } }"
+              "query": "{ pipe(id: 123456) { id, name, phases{ name, cards(first: 5){ edges{ node{ id, title } } } } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -101,40 +243,71 @@ query: {
             {
               "data": {
                 "pipe": {
-                  "id": "1",
-                  "name": " Pizza Order",
+                  "id": "243585",
+                  "name": "Simple To-do List",
                   "phases": [
                     {
-                      "name": "Prepare",
+                      "name": "To do",
                       "cards": {
                         "edges": [
                           {
                             "node": {
-                              "id": "4",
-                              "title": "Peperoni"
+                              "id": "2712454",
+                              "title": "Call John"
                             }
                           }
                         ]
                       }
                     },
                     {
-                      "name": "Delivery",
+                      "name": "Doing",
                       "cards": {
                         "edges": [
                           {
                             "node": {
-                              "id": "5",
-                              "title": "Muzzarela"
+                              "id": "2712458",
+                              "title": "Sales Report"
+                            }
+                          },
+                          {
+                            "node": {
+                              "id": "2712464",
+                              "title": "Financial Report "
                             }
                           }
                         ]
                       }
                     },
                     {
-                      "name": "Delivered",
+                      "name": "On hold",
                       "cards": {
                         "edges": [
+                          {
+                            "node": {
+                              "id": "2712469",
+                              "title": "Buy more pencils"
+                            }
+                          }
                         ]
+                      }
+                    },
+                    {
+                      "name": "Done",
+                      "cards": {
+                        "edges": [
+                          {
+                            "node": {
+                              "id": "2712480",
+                              "title": "Send email to Peter"
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "name": "Archived",
+                      "cards": {
+                        "edges": []
                       }
                     }
                   ]
@@ -149,19 +322,22 @@ Mutation to clone a pipe, in case of success a query is returned.
 **Request Body**
 
 ```
-mutation { 
+mutation {
   clonePipes(
     input: {
-      organization_id: 1
-      pipe_template_ids: [1]
+      organization_id: 12345
+      pipe_template_ids: [123456, 654321]
     }
   ) {
-    pipes { id, name } 
+    pipes {
+      id
+      name
+    }
   }
 }
 ```
 
-### clonePipes(input: params) [POST]
+### clonePipes(input: {params}) [POST]
 
 + Request (application/json)
 
@@ -172,7 +348,7 @@ mutation {
     + Body
 
             {
-              "query": "mutation { clonePipes(input: { organization_id: 1 pipe_template_ids: [1] }) { pipes { id, name } } }"
+              "query": "mutation { clonePipes(input: { organization_id: 12345 pipe_template_ids: [123456, 654321] }) { pipes { id, name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -184,8 +360,12 @@ mutation {
                 "clonePipes": {
                   "pipes": [
                     {
-                      "id": "97",
-                      "name": " Pizza Order (copy 1)"
+                      "id": "243757",
+                      "name": "Secret Project (copy 1)"
+                    },
+                    {
+                      "id": "243758",
+                      "name": "Geral (copy 1)"
                     }
                   ]
                 }

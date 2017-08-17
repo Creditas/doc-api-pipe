@@ -44,7 +44,7 @@ Get pipes by their identifiers.
     + Body
 
             {
-              "query": "{ pipes (ids: [123456, 654321]) { id, name, phases { name, cards (first: 5) { edges { node { id, name } } } } } }"
+                "query": "{ pipes (ids: [123456, 654321]) { id, name, phases { name, cards (first: 5) { edges { node { id, name } } } } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -233,7 +233,7 @@ Get a pipe by its identifier.
     + Body
 
             {
-              "query": "{ pipe(id: 123456) { id, name, phases{ name, cards(first: 5){ edges{ node{ id, title } } } } } }"
+                "query": "{ pipe(id: 123456) { id, name, phases{ name, cards(first: 5){ edges{ node{ id, title } } } } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -348,7 +348,7 @@ mutation {
     + Body
 
             {
-              "query": "mutation { clonePipes(input: { organization_id: 12345 pipe_template_ids: [123456, 654321] }) { pipes { id, name } } }"
+                "query": "mutation { clonePipes(input: { organization_id: 12345 pipe_template_ids: [123456, 654321] }) { pipes { id, name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -422,7 +422,7 @@ mutation {
     + Body
 
             {
-              "query": "mutation { createPipe(input: { organization_id: 12345, name: \"Secret Project\", labels: [{ name: \"Label 01\", color:\"#FF0042\"}], members: [{ user_id: 12345, role_name: \"admin\"}, { user_id: 12345, role_name: \"member\"}], phases: [{ name:\"First Step\"}, { name: \"Finished\", done: true }], start_form_fields: [{ label: \"Taks Name\", type_id: \"short_text\", editable: true }, { label: \"Contact Email\", type_id: \"email\" }], preferences: { inboxEmailEnabled: true } }) { pipe { id name } } }"
+                "query": "mutation { createPipe(input: { organization_id: 12345, name: \"Secret Project\", labels: [{ name: \"Label 01\", color:\"#FF0042\"}], members: [{ user_id: 12345, role_name: \"admin\"}, { user_id: 12345, role_name: \"member\"}], phases: [{ name:\"First Step\"}, { name: \"Finished\", done: true }], start_form_fields: [{ label: \"Taks Name\", type_id: \"short_text\", editable: true }, { label: \"Contact Email\", type_id: \"email\" }], preferences: { inboxEmailEnabled: true } }) { pipe { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -479,7 +479,7 @@ mutation {
     + Body
 
             {
-              "query": "mutation { updatePipe(input: { id: 123456, icon: \"emo\", title_field_id: \"contact_email\", public: false, public_form: true, only_assignees_can_edit_cards: false, anyone_can_create_card: true, expiration_time_by_unit: 2, expiration_unit: 86400 }) { pipe { id name } } }"
+                "query": "mutation { updatePipe(input: { id: 123456, icon: \"emo\", title_field_id: \"contact_email\", public: false, public_form: true, only_assignees_can_edit_cards: false, anyone_can_create_card: true, expiration_time_by_unit: 2, expiration_unit: 86400 }) { pipe { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -521,7 +521,7 @@ mutation {
     + Body
 
             {
-              "query": "mutation { deletePipe(input: { id: 1 }) { success } }"
+                "query": "mutation { deletePipe(input: { id: 1 }) { success } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -576,7 +576,7 @@ Get a phase by its identifier.
     + Body
 
             {
-              "query": "{ phase(id: 1234567) { id name cards_count cards { edges { node { id title } } } fields { id } } }"
+                "query": "{ phase(id: 1234567) { id name cards_count cards { edges { node { id title } } } fields { id } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -657,7 +657,7 @@ mutation {
     + Body
 
             {
-              "query": "mutation { createPhase(input: { pipe_id: 123456, name: \"First Phase\", done: false, lateness_time: 172800, description: \"This is the first phase of the secret plan.\", can_receive_card_directly_from_draft: true } ) { phase { id name } } }"
+                "query": "mutation { createPhase(input: { pipe_id: 123456, name: \"First Phase\", done: false, lateness_time: 172800, description: \"This is the first phase of the secret plan.\", can_receive_card_directly_from_draft: true } ) { phase { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -710,7 +710,7 @@ mutation {
     + Body
 
             {
-              "query": "mutation { updatePhase(input: { id: 1234567, name: \"New name\", done: true, description: \"New phase description.\", can_receive_card_directly_from_draft: true }) { phase { id name } } }"
+                "query": "mutation { updatePhase(input: { id: 1234567, name: \"New name\", done: true, description: \"New phase description.\", can_receive_card_directly_from_draft: true }) { phase { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -752,7 +752,7 @@ mutation {
     + Body
 
             {
-              "query": "mutation { deletePhase(input: { id: 1234567 }) { success } }"
+                "query": "mutation { deletePhase(input: { id: 1234567 }) { success } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -765,4 +765,1149 @@ mutation {
                   "success": true
                 }
               }
+            }
+
+## Create phase field [/queries{?create_phase_field}]
+
+Mutation to create a phase field, in case of success a query is returned.
+
+**Request Body**
+
+```
+mutation {
+  createPhaseField(
+    input: {
+      phase_id: 1234567
+      type: "radio_horizontal"
+      label: "Did you finish the task?"
+      options: ["Yes", "No"]
+      description: "Select if you finish the task or not."
+      required: true
+      editable: false
+    }
+  ) {
+    phase_field {
+      id
+      label
+    }
+  }
+}
+```
+
+### createPhaseField(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation{ createPhaseField(input: { phase_id: 1234567, type_id: \"radio_horizontal\", label: \"Did you finish the task?\", options: [\"Yes\", \"No\"], description: \"Select if you finish the task or not.\", required: true, help: \"Whether or not you finish the task.\", editable: false } ) { phase_field{ id label } } }"
+            }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+              "data": {
+                "createPhaseField": {
+                  "phase_field": {
+                    "id": "did_you_finish_the_task",
+                    "label": "Did you finish the task?"
+                  }
+                }
+              }
+            }
+
+## Update phase field [/queries{?update_phase_field}]
+
+Mutation to update a phase field, in case of success a query is returned.
+
+**Request Body**
+```
+mutation {
+  updatePhaseField(
+    input: {
+      id: "did_you_finish_the_task"
+      label: "Have you finished the task?"
+      options: ["Yep", "Nope"]
+      required: false
+      editable: true
+    }
+  ) {
+    phase_field {
+      id
+      label
+    }
+  }
+}
+```
+
+### updatePhaseField(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation { updatePhaseField(input: {id: \"did_you_finish_the_task\", label: \"Have you finished the task?\", required: false, editable: true }) { phase_field { id label } } }"
+            }
+            
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "updatePhaseField": {
+                  "phase_field": {
+                    "id": "did_you_finish_the_task",
+                    "label": "Have you finished the task?"
+                  }
+                }
+              }
+            }
+
+## Delete phase field [/queries{?delete_phase_field}]
+
+Mutation to delete a phase field, in case of success a query is returned.
+
+**Request Body**
+```
+mutation {
+  deletePhaseField(input: {id: "did_you_finish_the_task"}){
+    success
+  }
+}
+```
+
+### deletePhaseField(input: {id}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation { deletePhaseField(input: {id: \"did_you_finish_the_task\"}) { success } }"
+            }
+            
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "deletePhaseField": {
+                  "success": true
+                }
+              }
+            }
+
+## Create label [/queries{?create_label}]
+
+Mutation to create a label, in case of success a query is returned.
+
+**Request Body**
+
+```
+mutation {
+  createLabel(
+    input: {
+      pipe_id: 123456
+      name: "Important!"
+      color: "#FF0000"
+    }
+  ) {
+    label {
+      id
+      name
+    }
+  }
+}
+```
+
+### createLabel(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation { createLabel(input: {pipe_id: 123456, name: \"Important!\", color: \"#FF0000\"}){ label{ id, name } } }"
+            }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+              "data": {
+                "createLabel": {
+                  "label": {
+                    "id": "123456",
+                    "name": "Important!"
+                  }
+                }
+              }
+            }
+
+## Update label [/queries{?update_label}]
+
+Mutation to update a label, in case of success a query is returned.
+
+**Request Body**
+```
+mutation {
+  updateLabel(
+    input: {
+      id: 123456
+      name: "Very Important!"
+      color: "#FF6347"
+    }
+  ) {
+    label {
+      id
+      name
+    }
+  }
+}
+```
+
+### updateLabel(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation { updateLabel(input:{id: 123456, name: \"Very Important!\", color: \"#FF6347\"}){ label{ id name } } }" 
+            }
+            
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "updateLabel": {
+                  "label": {
+                    "id": "123456",
+                    "name": "Very Important!"
+                  }
+                }
+              }
+            }
+
+## Delete label [/queries{?delete_label}]
+
+Mutation to delete a label, in case of success a query is returned.
+
+**Request Body**
+```
+mutation {
+  deleteLabel(input: { id: 123456 }) {
+    success
+  }
+}
+```
+
+### deleteLabel(input: {id}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation { deleteLabel(input: {id: 123456}) { success } }"
+            }
+            
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "deleteLabel": {
+                  "success": true
+                }
+              }
+            }
+
+## Create card [/queries{?create_card}]
+
+Mutation to create a card, in case of success a query is returned. 
+
+**Request Body**
+```
+mutation{
+  createCard(
+    input: {
+      pipe_id: 219739
+      fields_attributes: [
+        {field_id: "assignee", field_value:[68310, 87021]}
+        {field_id: "checklist_vertical", field_value: ["a", "b"]}
+        {field_id: "checklist_horizontal", field_value: ["b"]}
+        {field_id: "cpf", field_value: "123.456.789-00"}
+        {field_id: "cnpj", field_value: "12.345.678/1234-00"}
+        {field_id: "date", field_value: "1977-01-20"}
+        {field_id: "date_time", field_value: "2017-07-20T21:00:00+00:00"}
+        {field_id: "due_date", field_value: "2017-07-20T21:00:00+00:00"}
+        {field_id: "currency", field_value: "90"}
+        {field_id: "label_select", field_value: [890073, 908006]}
+        {field_id: "email", field_value: "rocky.balboa@email.com"}
+        {field_id: "number", field_value: 9000}
+        {field_id: "short_text", field_value: "Rocky Balboa"}
+        {field_id: "long_text", field_value: "It ain’t about how hard you hit; it’s about how hard you can get hit and keep moving forward.. It’s how much you can take, and keep moving forward. That’s how winning is done."}
+        {field_id: "radio_vertical", field_value: "yes"}
+        {field_id: "radio_horizontal", field_value: "no"}
+        {field_id: "phone", field_value: "+55 11 1234-5678"}
+        {field_id: "select", field_value: "B. Rocky Balboa II"}
+        {field_id: "time", field_value: "17:25"}
+      ]
+      parent_ids: ["2735966"]
+    }
+  ) {
+    card {
+      id
+      title
+    }
+  }
+}
+```
+
+### createCard(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation{ createCard(input: {pipe_id: 219739, fields_attributes: [{field_id: \"assignee\", field_value: [68310, 87021]}, {field_id: \"checklist_vertical\", field_value: [\"a\", \"b\"]}, {field_id: \"checklist_horizontal\", field_value: [\"b\"]}, {field_id: \"cpf\", field_value: \"123.456.789-00\"}, {field_id: \"cnpj\", field_value: \"12.345.678/1234-00\"}, {field_id: \"date\", field_value: \"1977-01-20\"}, {field_id: \"date_time\", field_value: \"2017-07-20T21:00:00+00:00\"}, {field_id: \"due_date\", field_value: \"2017-07-20T21:00:00+00:00\"}, {field_id: \"currency\", field_value: \"90\"}, {field_id: \"label_select\", field_value: [890073, 908006]}, {field_id: \"email\", field_value: \"rocky.balboa@email.com\"}, {field_id: \"number\", field_value: 9000}, {field_id: \"short_text\", field_value: \"Rocky Balboa\"}, {field_id: \"long_text\", field_value: \"It ain’t about how hard you hit; it’s about how hard you can get hit and keep moving forward.. It’s how much you can take, and keep moving forward. That’s how winning is done.\"}, {field_id: \"radio_vertical\", field_value: \"yes\"}, {field_id: \"radio_horizontal\", field_value: \"no\"}, {field_id: \"phone\", field_value: \"+55 11 1234-5678\"}, {field_id: \"select\", field_value: \"B. Rocky Balboa II\"}, {field_id: \"time\", field_value: \"17:25\"}], parent_ids: [\"2735966\"]}) { card {id title }}}"
+            }
+
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "createCard": {
+                  "card": {
+                    "id": "2748707",
+                    "title": "Rocky Balboa"
+                  }
+                }
+              }
+            }
+
+## Update card [/queries{?update_card}]
+
+Mutation to update a card, in case of success a query is returned. 
+
+**Request Body**
+```
+mutation{
+  updateCard(
+    input: {
+      id: 2748707
+      title: "New Title"
+      due_date: "2017-08-20T21:00:00+00:00"
+      assignee_ids: [68310]
+      label_ids: [890073]
+    }
+  ) {
+    card {
+      id
+      title
+    }
+  }
+}
+```
+
+### updateCard(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation{ updateCard(input: {id: 2748707, title: \"New Title\", due_date: \"2017-08-20T21:00:00+00:00\", assignee_ids: [68310], label_ids: [890073]}) { card { id title }}}" 
+            }
+
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "updateCard": {
+                  "card": {
+                    "id": "2748707",
+                    "title": "New Title"
+                  }
+                }
+              }
+            }
+
+## Delete card [/queries{?delete_card}]
+
+Mutation to delete a card, in case of success a query is returned. 
+
+**Request Body**
+```
+mutation {
+  deleteCard(input: {id: 2748707}) {
+    success
+  }
+}
+```
+
+### deleteCard(input: {id}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation{ deleteCard(input: {id: 2748707}) { success } }" 
+            }
+
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "deleteCard": {
+                  "success": true
+                }
+              }
+            }
+
+## Move card to phase [/queries{?move_card_to_phase}]
+
+Mutation to move a card to a phase, in case of success a query is returned. 
+
+**Request Body**
+```
+mutation {
+  moveCardToPhase(
+    input: {
+      card_id: 2735966
+      destination_phase_id: 1624317
+    }
+  ) {
+    card {
+      id
+      current_phase{
+        name
+      }
+    }
+  }
+}
+```
+
+### moveCardToPhase(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation{ moveCardToPhase(input: {card_id: 2735966, destination_phase_id: 2735966}){ card{ id current_phase{ name } } } }"
+            }
+
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "moveCardToPhase": {
+                  "card": {
+                    "id": "2735966",
+                    "current_phase": {
+                      "name": "doing"
+                    }
+                  }
+                }
+              }
+            }
+
+## Update card field [/queries{?update_card_field}]
+
+Mutation to update a card field, in case of success a query is returned.
+
+**Request Body**
+```
+mutation {
+  updateCardField(
+    input: {
+      card_id: 2750027
+      field_id: "did_you_finish_the_task"
+      new_value: "Yes"
+    }
+  ) {
+    card {
+      id
+      title
+    }
+  }
+}
+```
+
+### updateCardField(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation{ updateCardField(input:{card_id: 2750027, field_id: \"did_you_finish_the_task\", new_value: "Yes"}){ card{ id title } } }"
+            }
+
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "updateCardField": {
+                  "card": {
+                    "id": "2750027"
+                  }
+                }
+              }
+            }
+
+## Create comment [/queries{?add_comment}]
+
+Mutation to create a comment, in case of success a query is returned.
+
+**Request Body**
+```
+mutation {
+  createComment(
+    input: {
+      card_id: 2611098
+      text: "Life is like a box of chocolates. You never know what you're gonna get."
+    }
+  ) {
+    comment {
+      id
+      text
+    }
+  }
+}
+```
+
+### createComment(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation { createComment(input: {card_id: 2611098, text: \"Life is like a box of chocolates. You never know what you're gonna get.\"}) { comment { id text } } }"
+            }
+            
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "createComment": {
+                  "comment": {
+                    "id": "492421",
+                    "text": "Life is like a box of chocolates. You never know what you're gonna get."
+                  }
+                }
+              }
+            }
+
+## Update comment [/queries{?update_comment}]
+
+Mutation to update a comment, in case of success a query is returned.
+
+**Request Body**
+```
+mutation {
+  updateComment(
+    input: {
+      id: 492421
+      text: "Let me explain something to you. Um, I am not Mr. Lebowski. You're Mr. Lebowski. I'm the Dude. So that's what you call me. You know, that or, uh, His Dudeness, or uh, Duder, or El Duderino if you're not into the whole brevity thing."
+    }
+  ) {
+    comment {
+      id
+      text
+    }
+  }
+}
+```
+
+### updateComment(input: {params}) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { 
+                "query": "mutation{ updateComment(input: {id: 2611098, text: \"Let me explain something to you. Um, I am not Mr. Lebowski. You're Mr. Lebowski. I'm the Dude. So that's what you call me. You know, that or, uh, His Dudeness, or uh, Duder, or El Duderino if you're not into the whole brevity thing.\"}){ comment { id text } } }"
+            }
+            
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+              "data": {
+                "updateComment": {
+                  "comment": {
+                    "id": "492421",
+                    "text": "Let me explain something to you. Um, I am not Mr. Lebowski. You're Mr. Lebowski. I'm the Dude. So that's what you call me. You know, that or, uh, His Dudeness, or uh, Duder, or El Duderino if you're not into the whole brevity thing."
+                  }
+                }
+              }
+            }
+
+## Delete comment [/queries{?delete_comment}]
+
+Mutation to delete a comment of a Card, in case of success a query is returned.
+
+- parameter:
+    - comment id
+
+**Request Body**
+```
+mutation {
+    deleteComment(input: {id: 1}) {
+        success
+    }
+}
+```
+
+### deleteComment(input: id) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { "query": "mutation { deleteComment(input: {id: 1}) { success } }" }
+            
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+                "data": {
+                     "deleteComment": {
+                        "card": {
+                            "success": true
+                        }
+                    }
+                }
+            }
+
+## Set role [/queries{?set_role}]
+
+Mutation to set a user's role, in case of success a query is returned.
+
+- parameters:
+    - organization id
+    - pipe id
+    - member:
+        - user id
+        - role name
+
+**Request Body**
+```
+mutation {
+    setRole(
+        input: {
+            pipe_id: 5, 
+            organization_id: 1, 
+            member: { user_id: 4, role_name: "member" } 
+        }
+    ) 
+    {
+        member{
+            role_name
+            user{ username }
+        }
+    }
+}
+```
+
+### setRole(input: params) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { "query": "mutation { setRole(input: {pipe_id: 5, organization_id: 1, member: {user_id: 4, role_name: \"member\" } }) { member{ role_name, user{ username } } } }" }
+            
++ Response 200 (application/json; charset=utf-8)
+    
+    + Body
+    
+            {
+                "data": {
+                    "setRole": {
+                        "member": {
+                            "role_name": "member",
+                            "user": {
+                                "username": "dioguinho" 
+                            }
+                        }
+                    }
+                }
+            }
+
+## Create pipe relation [/queries{?create_pipe_relation}]
+
+Mutation to create a pipe relation between two pipes, in case of success a query is returned.
+
+- parameters:
+    - parent_id
+    - child_id
+    - name
+    - child_must_exist_to_move_parent
+    - child_must_exist_to_finish_parent
+    - all_children_must_be_done_to_finish_parent
+    - all_children_must_be_done_to_move_parent
+    - can_create_connected_cards
+    - can_search_connected_cards
+    - can_connect_multiple_cards
+
+**Request Body**
+```
+mutation {
+    createPipeRelation(
+      input: {
+        parent_id: 1
+        child_id: 2
+        name: "Pipe Connection"
+        child_must_exist_to_move_parent: true
+        child_must_exist_to_finish_parent: false
+        all_children_must_be_done_to_finish_parent: true
+        all_children_must_be_done_to_move_parent: true
+        can_create_connected_cards: false
+        can_search_connected_cards: true
+        can_connect_multiple_cards: true
+      }
+    ) {
+        pipe_relation {
+          id
+          name
+          parent_id
+          child_id
+          can_create_connected_cards
+          can_search_connected_cards
+          can_connect_multiple_cards
+          child_must_exist_to_move_parent
+          child_must_exist_to_finish_parent
+          all_children_must_be_done_to_move_parent
+          all_children_must_be_done_to_finish_parent
+        }
+    }
+}
+```
+
+### createPipeRelation(input: params) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { "query": "mutation { createPipeRelation(input: { parent_id: 1, child_id: 2, name: \"Pipe Connection\", child_must_exist_to_move_parent: true, child_must_exist_to_finish_parent: false, all_children_must_be_done_to_finish_parent: true, all_children_must_be_done_to_move_parent: true, can_create_connected_cards: false, can_search_connected_cards: true, can_connect_multiple_cards: true }) { pipe_relation { id, name, parent_id, child_id, can_create_connected_cards, can_search_connected_cards, can_connect_multiple_cards, child_must_exist_to_move_parent, child_must_exist_to_finish_parent, all_children_must_be_done_to_move_parent, all_children_must_be_done_to_finish_parent } } }" }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "data": {
+                    "createPipeRelation": {
+                        "pipe_relation": {
+                            "id": "10",
+                            "name": "Pipe Connection",
+                            "parent_id": "1",
+                            "child_id": "2",
+                            "can_create_connected_cards": false,
+                            "can_search_connected_cards": true,
+                            "can_connect_multiple_cards": true,
+                            "child_must_exist_to_move_parent": true,
+                            "child_must_exist_to_finish_parent": false,
+                            "all_children_must_be_done_to_move_parent": true,
+                            "all_children_must_be_done_to_finish_parent": true
+                        }
+                    }
+                }
+            }
+
+## Update pipe relation [/queries{?update_pipe_relation}]
+
+Mutation to update a pipe relation, in case of success a query is returned.
+
+- pipe relation's parameters:
+    - id
+    - name
+    - child_must_exist_to_move_parent
+    - child_must_exist_to_finish_parent
+    - all_children_must_be_done_to_finish_parent
+    - all_children_must_be_done_to_move_parent
+    - can_create_connected_cards
+    - can_search_connected_cards
+    - can_connect_multiple_cards
+
+**Request Body**
+```
+mutation {
+  updatePipeRelation(
+    input: {
+      id: 1
+      name: "Edit: Pipe Connection"
+      child_must_exist_to_move_parent: true
+      child_must_exist_to_finish_parent: false
+      all_children_must_be_done_to_finish_parent: true
+      all_children_must_be_done_to_move_parent: true
+      can_create_connected_cards: false
+      can_search_connected_cards: true
+      can_connect_multiple_cards: true
+    }
+  ) {
+      pipe_relation {
+        id
+        name
+        parent_id
+        child_id
+        can_create_connected_cards
+        can_search_connected_cards
+        can_connect_multiple_cards
+        child_must_exist_to_move_parent
+        child_must_exist_to_finish_parent
+        all_children_must_be_done_to_move_parent
+        all_children_must_be_done_to_finish_parent
+      }
+  }
+}
+```
+
+### updatePipeRelation(input: params) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { "query": "mutation { updatePipeRelation(input: { id: 1, name: \"Edit: Pipe Connection\", child_must_exist_to_move_parent: true, child_must_exist_to_finish_parent: false, all_children_must_be_done_to_finish_parent: true, all_children_must_be_done_to_move_parent: true, can_create_connected_cards: false, can_search_connected_cards: true, can_connect_multiple_cards: true }) { pipe_relation { id, name, parent_id, child_id, can_create_connected_cards, can_search_connected_cards, can_connect_multiple_cards, child_must_exist_to_move_parent, child_must_exist_to_finish_parent, all_children_must_be_done_to_move_parent, all_children_must_be_done_to_finish_parent } } }" }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "data": {
+                    "updatePipeRelation": {
+                        "pipe_relation": {
+                            "id": "10",
+                            "name": "Edit: Pipe Connection",
+                            "parent_id": "1",
+                            "child_id": "2",
+                            "can_create_connected_cards": false,
+                            "can_search_connected_cards": true,
+                            "can_connect_multiple_cards": true,
+                            "child_must_exist_to_move_parent": true,
+                            "child_must_exist_to_finish_parent": false,
+                            "all_children_must_be_done_to_move_parent": true,
+                            "all_children_must_be_done_to_finish_parent": true
+                        }
+                    }
+                }
+            }
+
+## Delete pipe relation [/queries{?delete_pipe_relation}]
+
+Mutation to delete a pipe relation, in case of success a query `"success": true` is returned.
+
+- parameter:
+    - pipe relation id
+
+**Request Body**
+```
+mutation {
+    deletePipeRelation(input: {id: 1}) {
+        success
+    }
+}
+```
+
+### deletePipeRelation(input: id) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { "query": "mutation { deletePipeRelation(input: {id: 1}) { success } }" }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "data": {
+                    "deletePipeRelation": {
+                        "success": true
+                    }
+                }
+            }
+
+## Create webhook [/queries{?create_webhook}]
+
+Mutation to create a webhook, in case of success a query is returned.
+
+- parameters:
+    - pipe_id
+    - table_id
+    - name
+    - email
+    - url
+    - actions
+    - headers
+
+**Request Body**
+```
+mutation {
+    createWebhook(
+      input: {
+        pipe_id: 1
+        name: "My Integration"
+        email: "examepl@email.com"
+        url: "http://example.com/end_point/to/post"
+        actions: ["card.create", "card.move"]
+        headers: "{\"Custom-Header\": \"in json format\"}"
+      }
+    ) {
+        webhook {
+          id
+          name
+          email
+          url
+          actions
+          headers
+        }
+    }
+}
+```
+
+### createWebhook(input: params) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { "query": "mutation { createWebhook(input: { pipe_id: 1, name: \"My Integration\", email: \"example@email.com\", url: \"http://example.com/end_point/to/post\", actions: [\"card.create\", \"card.move\"], headers: \"{\\\"Custom-Header\\\": \\\"in json format\\\"}\" }) { webhook { id, name, email, url, actions, headers } } }" }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "data": {
+                    "createWebhook": {
+                        "webhook": {
+                            "id": "10",
+                            name: "My Integration",
+                            email: "examepl@email.com",
+                            url: "http://example.com/end_point/to/post",
+                            actions: ["card.create", "card.move"],
+                            headers: "{\"Custom-Header\": \"in json format\"}"
+                        }
+                    }
+                }
+            }
+
+## Update webhook [/queries{?update_webhook}]
+
+Mutation to update a webhook, in case of success a query is returned.
+
+- webhook's parameters:
+    - id
+    - name
+    - email
+    - url
+    - actions
+    - headers
+
+**Request Body**
+```
+mutation {
+  updateWebhook(
+    input: {
+      id: 10
+      name: "My Integration"
+      email: "examepl@email.com"
+      url: "http://example.com/end_point/to/post"
+      actions: ["card.create", "card.move"]
+      headers: "{\"Custom-Header\": \"in json format\"}"
+    }
+  ) {
+    webhook {
+      id
+      name
+      email
+      url
+      actions
+      headers
+    }
+  }
+}
+```
+
+### updateWebhook(input: params) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { "query": "mutation { updateWebhook(input: { id: 10, name: \"My Integration\", email: \"examepl@email.com\", url: \"http://example.com/end_point/to/post\", actions: [\"card.create\", \"card.move\"], headers: \"{\\\"Custom-Header\\\": \\\"in json format\\\"}\" }) { webhook { id, name, email, url, actions, headers } } }" }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "data": {
+                    "updateWebhook": {
+                        "webhook": {
+                            "id": "10",
+                            "name": "My Integration",
+                            "email": "examepl@email.com",
+                            "url": "http://example.com/end_point/to/post",
+                            "actions": ["card.create", "card.move"],
+                            "headers": "{\"Custom-Header\": \"in json format\"}"
+                        }
+                    }
+                }
+            }
+
+## Delete webhook [/queries{?delete_webhook}]
+
+Mutation to delete a webhook, in case of success a query `"success": true` is returned.
+
+- parameter:
+    - webhook id
+
+**Request Body**
+```
+mutation {
+    deleteWebhook(input: { id: 10 }) {
+        success
+    }
+}
+```
+
+### deleteWebhook(input: id) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            { "query": "mutation { deleteWebhook(input: { id: 10 }) { success } }" }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+                "data": {
+                    "deleteWebhook": {
+                        "success": true
+                    }
+                }
             }

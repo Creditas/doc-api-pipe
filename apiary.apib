@@ -1426,21 +1426,18 @@ mutation {
 
 ## Delete comment [/queries{?delete_comment}]
 
-Mutation to delete a comment of a Card, in case of success a query is returned.
-
-- parameter:
-    - comment id
+Mutation to delete a comment, in case of success a query is returned.
 
 **Request Body**
 ```
 mutation {
-    deleteComment(input: {id: 1}) {
-        success
-    }
+  deleteComment(input:{id: 492421}) {
+    success
+  }
 }
 ```
 
-### deleteComment(input: id) [POST]
+### deleteComment(input: {id}) [POST]
 
 + Request (application/json)
 
@@ -1450,53 +1447,49 @@ mutation {
 
     + Body
 
-            { "query": "mutation { deleteComment(input: {id: 1}) { success } }" }
+            { 
+                "query": "mutation { deleteComment(input: {id: 492421}) { success } }"
+            }
             
 + Response 200 (application/json; charset=utf-8)
     
     + Body
     
             {
-                "data": {
-                     "deleteComment": {
-                        "card": {
-                            "success": true
-                        }
-                    }
+              "data": {
+                "deleteComment": {
+                  "success": true
                 }
+              }
             }
 
 ## Set role [/queries{?set_role}]
 
 Mutation to set a user's role, in case of success a query is returned.
 
-- parameters:
-    - organization id
-    - pipe id
-    - member:
-        - user id
-        - role name
-
 **Request Body**
 ```
 mutation {
-    setRole(
-        input: {
-            pipe_id: 5, 
-            organization_id: 1, 
-            member: { user_id: 4, role_name: "member" } 
-        }
-    ) 
-    {
-        member{
-            role_name
-            user{ username }
-        }
+  setRole(
+    input: {
+      pipe_id: 219739
+      member: {
+        user_id: 77303
+        role_name: "admin"
+      }
     }
+  ) {
+    member {
+      user{
+        id
+      }
+      role_name
+    }
+  }
 }
 ```
 
-### setRole(input: params) [POST]
+### setRole(input: {params}) [POST]
 
 + Request (application/json)
 
@@ -1506,76 +1499,125 @@ mutation {
 
     + Body
 
-            { "query": "mutation { setRole(input: {pipe_id: 5, organization_id: 1, member: {user_id: 4, role_name: \"member\" } }) { member{ role_name, user{ username } } } }" }
+            { 
+                "query": "mutation { setRole(input: {pipe_id: 219739, member: {user_id: 77303, role_name: \"admin\" } }) { member{ user{ id } role_name } } }"
+            }
             
 + Response 200 (application/json; charset=utf-8)
     
     + Body
     
             {
-                "data": {
-                    "setRole": {
-                        "member": {
-                            "role_name": "member",
-                            "user": {
-                                "username": "dioguinho" 
-                            }
-                        }
-                    }
+              "data": {
+                "setRole": {
+                  "member": {
+                    "user": {
+                      "id": "77303"
+                    },
+                    "role_name": "admin"
+                  }
                 }
+              }
+            }
+
+## Show pipe relations [/queries{?pipe_relations}]
+
+Get a list of pipe relations by their identifiers, with properties and the child name.
+
+**Request Body**
+```
+{
+  pipe_relations(ids: [5078, 5079]) {
+    id
+    name
+    allChildrenMustBeDoneToMoveParent
+    allChildrenMustBeDoneToFinishParent
+    canCreateNewItems
+    canConnectExistingItems
+    canConnectMultipleItems
+    childMustExistToMoveParent
+    childMustExistToFinishParent
+  }
+}
+```
+
+### pipe_relations(ids: [relation_id]) [POST]
+
++ Request (application/json)
+
+    + Headers
+
+            Authorization: Bearer your_personal_access_token
+
+    + Body
+
+            {
+                "query": "{ pipe_relations(ids:[5078, 5079]) { id name allChildrenMustBeDoneToMoveParent allChildrenMustBeDoneToFinishParent canCreateNewItems canConnectExistingItems canConnectMultipleItems childMustExistToMoveParent childMustExistToFinishParent } }"
+            }
+
++ Response 200 (application/json; charset=utf-8)
+
+    + Body
+
+            {
+              "data": {
+                "pipe_relations": [
+                  {
+                    "id": "5078",
+                    "name": "Sales Connection",
+                    "allChildrenMustBeDoneToMoveParent": false,
+                    "allChildrenMustBeDoneToFinishParent": true,
+                    "canCreateNewItems": true,
+                    "canConnectExistingItems": true,
+                    "canConnectMultipleItems": true,
+                    "childMustExistToMoveParent": false,
+                    "childMustExistToFinishParent": false
+                  },
+                  {
+                    "id": "5079",
+                    "name": "Secret Project Connection",
+                    "allChildrenMustBeDoneToMoveParent": false,
+                    "allChildrenMustBeDoneToFinishParent": false,
+                    "canCreateNewItems": true,
+                    "canConnectExistingItems": true,
+                    "canConnectMultipleItems": false,
+                    "childMustExistToMoveParent": false,
+                    "childMustExistToFinishParent": false
+                  }
+                ]
+              }
             }
 
 ## Create pipe relation [/queries{?create_pipe_relation}]
 
 Mutation to create a pipe relation between two pipes, in case of success a query is returned.
 
-- parameters:
-    - parent_id
-    - child_id
-    - name
-    - child_must_exist_to_move_parent
-    - child_must_exist_to_finish_parent
-    - all_children_must_be_done_to_finish_parent
-    - all_children_must_be_done_to_move_parent
-    - can_create_connected_cards
-    - can_search_connected_cards
-    - can_connect_multiple_cards
-
 **Request Body**
 ```
 mutation {
-    createPipeRelation(
-      input: {
-        parent_id: 1
-        child_id: 2
-        name: "Pipe Connection"
-        child_must_exist_to_move_parent: true
-        child_must_exist_to_finish_parent: false
-        all_children_must_be_done_to_finish_parent: true
-        all_children_must_be_done_to_move_parent: true
-        can_create_connected_cards: false
-        can_search_connected_cards: true
-        can_connect_multiple_cards: true
-      }
-    ) {
-        pipe_relation {
-          id
-          name
-          parent_id
-          child_id
-          can_create_connected_cards
-          can_search_connected_cards
-          can_connect_multiple_cards
-          child_must_exist_to_move_parent
-          child_must_exist_to_finish_parent
-          all_children_must_be_done_to_move_parent
-          all_children_must_be_done_to_finish_parent
-        }
+  createPipeRelation(
+    input: {
+      parentId: 211269
+      childId: 211270
+      name: "Connection between pipes"
+      allChildrenMustBeDoneToFinishParent: false
+      childMustExistToMoveParent: true
+      childMustExistToFinishParent: false
+      allChildrenMustBeDoneToMoveParent: false
+      canCreateNewItems: true
+      canConnectExistingItems: true
+      canConnectMultipleItems: false
     }
+  ) {
+    pipeRelation {
+      id
+      name
+    }
+  }
 }
 ```
 
-### createPipeRelation(input: params) [POST]
+### createPipeRelation(input: {params}) [POST]
 
 + Request (application/json)
 
@@ -1585,81 +1627,54 @@ mutation {
 
     + Body
 
-            { "query": "mutation { createPipeRelation(input: { parent_id: 1, child_id: 2, name: \"Pipe Connection\", child_must_exist_to_move_parent: true, child_must_exist_to_finish_parent: false, all_children_must_be_done_to_finish_parent: true, all_children_must_be_done_to_move_parent: true, can_create_connected_cards: false, can_search_connected_cards: true, can_connect_multiple_cards: true }) { pipe_relation { id, name, parent_id, child_id, can_create_connected_cards, can_search_connected_cards, can_connect_multiple_cards, child_must_exist_to_move_parent, child_must_exist_to_finish_parent, all_children_must_be_done_to_move_parent, all_children_must_be_done_to_finish_parent } } }" }
+            { 
+                "query": "mutation { createPipeRelation(input: { parent_id: 211269, child_id: 211270, name: \"Connection between pipes\", allChildrenMustBeDoneToFinishParent: false, childMustExistToMoveParent: true, childMustExistToFinishParent: false, allChildrenMustBeDoneToMoveParent: false, canCreateNewItems: true, canConnectExistingItems: true, canConnectMultipleItems: false  }) { pipe_relation { id name } } }"
+            }
 
 + Response 200 (application/json; charset=utf-8)
 
     + Body
 
             {
-                "data": {
-                    "createPipeRelation": {
-                        "pipe_relation": {
-                            "id": "10",
-                            "name": "Pipe Connection",
-                            "parent_id": "1",
-                            "child_id": "2",
-                            "can_create_connected_cards": false,
-                            "can_search_connected_cards": true,
-                            "can_connect_multiple_cards": true,
-                            "child_must_exist_to_move_parent": true,
-                            "child_must_exist_to_finish_parent": false,
-                            "all_children_must_be_done_to_move_parent": true,
-                            "all_children_must_be_done_to_finish_parent": true
-                        }
-                    }
+              "data": {
+                "createPipeRelation": {
+                  "pipeRelation": {
+                    "id": "5080",
+                    "name": "Connection between pipes"
+                  }
                 }
+              }
             }
 
 ## Update pipe relation [/queries{?update_pipe_relation}]
 
 Mutation to update a pipe relation, in case of success a query is returned.
 
-- pipe relation's parameters:
-    - id
-    - name
-    - child_must_exist_to_move_parent
-    - child_must_exist_to_finish_parent
-    - all_children_must_be_done_to_finish_parent
-    - all_children_must_be_done_to_move_parent
-    - can_create_connected_cards
-    - can_search_connected_cards
-    - can_connect_multiple_cards
-
 **Request Body**
 ```
 mutation {
   updatePipeRelation(
     input: {
-      id: 1
-      name: "Edit: Pipe Connection"
-      child_must_exist_to_move_parent: true
-      child_must_exist_to_finish_parent: false
-      all_children_must_be_done_to_finish_parent: true
-      all_children_must_be_done_to_move_parent: true
-      can_create_connected_cards: false
-      can_search_connected_cards: true
-      can_connect_multiple_cards: true
+      id: 5080
+      name: "New relation name"
+      allChildrenMustBeDoneToFinishParent: true
+      childMustExistToMoveParent: false
+      childMustExistToFinishParent: false
+      allChildrenMustBeDoneToMoveParent: true
+      canCreateNewItems: false
+      canConnectExistingItems: true
+      canConnectMultipleItems: false
     }
   ) {
-      pipe_relation {
-        id
-        name
-        parent_id
-        child_id
-        can_create_connected_cards
-        can_search_connected_cards
-        can_connect_multiple_cards
-        child_must_exist_to_move_parent
-        child_must_exist_to_finish_parent
-        all_children_must_be_done_to_move_parent
-        all_children_must_be_done_to_finish_parent
-      }
+    pipeRelation {
+      id
+      name
+    }
   }
 }
 ```
 
-### updatePipeRelation(input: params) [POST]
+### updatePipeRelation(input: {params}) [POST]
 
 + Request (application/json)
 
@@ -1669,49 +1684,39 @@ mutation {
 
     + Body
 
-            { "query": "mutation { updatePipeRelation(input: { id: 1, name: \"Edit: Pipe Connection\", child_must_exist_to_move_parent: true, child_must_exist_to_finish_parent: false, all_children_must_be_done_to_finish_parent: true, all_children_must_be_done_to_move_parent: true, can_create_connected_cards: false, can_search_connected_cards: true, can_connect_multiple_cards: true }) { pipe_relation { id, name, parent_id, child_id, can_create_connected_cards, can_search_connected_cards, can_connect_multiple_cards, child_must_exist_to_move_parent, child_must_exist_to_finish_parent, all_children_must_be_done_to_move_parent, all_children_must_be_done_to_finish_parent } } }" }
+            { 
+                "query": "mutation { updatePipeRelation(input: {id: 5080, name: \"New relation name\", allChildrenMustBeDoneToFinishParent: true, childMustExistToMoveParent: false, childMustExistToFinishParent: false, allChildrenMustBeDoneToMoveParent: true, canCreateNewItems: false, canConnectExistingItems: true, canConnectMultipleItems: false}) { pipe_relation { id, name, parent_id, child_id, can_create_connected_cards, can_search_connected_cards, can_connect_multiple_cards, child_must_exist_to_move_parent, child_must_exist_to_finish_parent, all_children_must_be_done_to_move_parent, all_children_must_be_done_to_finish_parent } } }"
+            }
 
 + Response 200 (application/json; charset=utf-8)
 
     + Body
 
             {
-                "data": {
-                    "updatePipeRelation": {
-                        "pipe_relation": {
-                            "id": "10",
-                            "name": "Edit: Pipe Connection",
-                            "parent_id": "1",
-                            "child_id": "2",
-                            "can_create_connected_cards": false,
-                            "can_search_connected_cards": true,
-                            "can_connect_multiple_cards": true,
-                            "child_must_exist_to_move_parent": true,
-                            "child_must_exist_to_finish_parent": false,
-                            "all_children_must_be_done_to_move_parent": true,
-                            "all_children_must_be_done_to_finish_parent": true
-                        }
-                    }
+              "data": {
+                "updatePipeRelation": {
+                  "pipeRelation": {
+                    "id": "5080",
+                    "name": "New relation name"
+                  }
                 }
+              }
             }
 
 ## Delete pipe relation [/queries{?delete_pipe_relation}]
 
-Mutation to delete a pipe relation, in case of success a query `"success": true` is returned.
-
-- parameter:
-    - pipe relation id
+Mutation to delete a pipe relation, in case of success a query is returned.
 
 **Request Body**
 ```
 mutation {
-    deletePipeRelation(input: {id: 1}) {
-        success
-    }
+  deletePipeRelation(input:{id: 5080}) {
+    success
+  }
 }
 ```
 
-### deletePipeRelation(input: id) [POST]
+### deletePipeRelation(input: {id}) [POST]
 
 + Request (application/json)
 
@@ -1721,59 +1726,48 @@ mutation {
 
     + Body
 
-            { "query": "mutation { deletePipeRelation(input: {id: 1}) { success } }" }
+            { 
+                "query": "mutation { deletePipeRelation(input: {id: 5080}) { success } }"
+            }
 
 + Response 200 (application/json; charset=utf-8)
 
     + Body
 
             {
-                "data": {
-                    "deletePipeRelation": {
-                        "success": true
-                    }
+              "data": {
+                "deletePipeRelation": {
+                  "success": true
                 }
+              }
             }
 
 ## Create webhook [/queries{?create_webhook}]
 
 Mutation to create a webhook, in case of success a query is returned.
 
-- parameters:
-    - pipe_id
-    - table_id
-    - name
-    - email
-    - url
-    - actions
-    - headers
-
 **Request Body**
 ```
-mutation {
-    createWebhook(
-      input: {
-        pipe_id: 1
-        name: "My Integration"
-        email: "examepl@email.com"
-        url: "http://example.com/end_point/to/post"
-        actions: ["card.create", "card.move"]
-        headers: "{\"Custom-Header\": \"in json format\"}"
-      }
-    ) {
-        webhook {
-          id
-          name
-          email
-          url
-          actions
-          headers
-        }
+mutation{
+  createWebhook(
+    input: {
+      pipe_id: 219739
+      name: "New Webhook"
+      email: "severo.snape@gmail.com"
+      url: "www.myurl.com/queries"
+      actions: ["card.create", "card.done"]
+      headers: "{\"foo\": \"bar\"}"
     }
+  ) {
+    webhook {
+      id
+      name
+    }
+  }
 }
 ```
 
-### createWebhook(input: params) [POST]
+### createWebhook(input: {params}) [POST]
 
 + Request (application/json)
 
@@ -1783,65 +1777,49 @@ mutation {
 
     + Body
 
-            { "query": "mutation { createWebhook(input: { pipe_id: 1, name: \"My Integration\", email: \"example@email.com\", url: \"http://example.com/end_point/to/post\", actions: [\"card.create\", \"card.move\"], headers: \"{\\\"Custom-Header\\\": \\\"in json format\\\"}\" }) { webhook { id, name, email, url, actions, headers } } }" }
+            { 
+                "query": "mutation { createWebhook(input: { pipe_id: 219739, name: \"New Webhook\", email: \"severo.snape@gmail.com\", url: \"www.myurl.com/queries", actions: [\"card.create\", \"card.done\"], headers: \"{\\\"foo\\\": \\\"bar\\\"}\" }) { webhook { id name } } }"
+            }
 
 + Response 200 (application/json; charset=utf-8)
 
     + Body
 
             {
-                "data": {
-                    "createWebhook": {
-                        "webhook": {
-                            "id": "10",
-                            name: "My Integration",
-                            email: "examepl@email.com",
-                            url: "http://example.com/end_point/to/post",
-                            actions: ["card.create", "card.move"],
-                            headers: "{\"Custom-Header\": \"in json format\"}"
-                        }
-                    }
+              "data": {
+                "createWebhook": {
+                  "webhook": {
+                    "id": "204",
+                    "name": "New Webhook"
+                  }
                 }
+              }
             }
 
 ## Update webhook [/queries{?update_webhook}]
 
 Mutation to update a webhook, in case of success a query is returned.
 
-- webhook's parameters:
-    - id
-    - name
-    - email
-    - url
-    - actions
-    - headers
-
 **Request Body**
 ```
-mutation {
+mutation{
   updateWebhook(
     input: {
-      id: 10
-      name: "My Integration"
-      email: "examepl@email.com"
-      url: "http://example.com/end_point/to/post"
+      id: 204
+      email: "newemail@pipefy.com"
       actions: ["card.create", "card.move"]
-      headers: "{\"Custom-Header\": \"in json format\"}"
     }
   ) {
     webhook {
       id
-      name
       email
-      url
       actions
-      headers
     }
   }
 }
 ```
 
-### updateWebhook(input: params) [POST]
+### updateWebhook(input: {params}) [POST]
 
 + Request (application/json)
 
@@ -1851,44 +1829,43 @@ mutation {
 
     + Body
 
-            { "query": "mutation { updateWebhook(input: { id: 10, name: \"My Integration\", email: \"examepl@email.com\", url: \"http://example.com/end_point/to/post\", actions: [\"card.create\", \"card.move\"], headers: \"{\\\"Custom-Header\\\": \\\"in json format\\\"}\" }) { webhook { id, name, email, url, actions, headers } } }" }
+            { 
+                "query": "mutation { updateWebhook(input: { id: 204, email: \"newemail@pipefy.com\", actions: [\"card.create\", \"card.move\"]}) { webhook { id email actions } } }"
+            }
 
 + Response 200 (application/json; charset=utf-8)
 
     + Body
 
             {
-                "data": {
-                    "updateWebhook": {
-                        "webhook": {
-                            "id": "10",
-                            "name": "My Integration",
-                            "email": "examepl@email.com",
-                            "url": "http://example.com/end_point/to/post",
-                            "actions": ["card.create", "card.move"],
-                            "headers": "{\"Custom-Header\": \"in json format\"}"
-                        }
-                    }
+              "data": {
+                "updateWebhook": {
+                  "webhook": {
+                    "id": "204",
+                    "email": "newemail@pipefy.com",
+                    "actions": [
+                      "card.create",
+                      "card.move"
+                    ]
+                  }
                 }
+              }
             }
 
 ## Delete webhook [/queries{?delete_webhook}]
 
-Mutation to delete a webhook, in case of success a query `"success": true` is returned.
-
-- parameter:
-    - webhook id
+Mutation to delete a webhook, in case of success a query is returned.
 
 **Request Body**
 ```
-mutation {
-    deleteWebhook(input: { id: 10 }) {
-        success
-    }
+mutation{
+  deleteWebhook(input:{id: 204}) {
+    success
+  }
 }
 ```
 
-### deleteWebhook(input: id) [POST]
+### deleteWebhook(input: {id}) [POST]
 
 + Request (application/json)
 
@@ -1898,16 +1875,18 @@ mutation {
 
     + Body
 
-            { "query": "mutation { deleteWebhook(input: { id: 10 }) { success } }" }
+            { 
+                "query": "mutation { deleteWebhook(input: { id: 204 }) { success } }"
+            }
 
 + Response 200 (application/json; charset=utf-8)
 
     + Body
 
             {
-                "data": {
-                    "deleteWebhook": {
-                        "success": true
-                    }
+              "data": {
+                "deleteWebhook": {
+                  "success": true
                 }
+              }
             }

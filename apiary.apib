@@ -15,16 +15,16 @@ Get pipes by their identifiers.
 **Request Body**
 ```
 {
-  pipes(ids:[123456, 654321]) {
+  pipes(ids: [241213, 654321]) {
     id
     name
-    phases{
+    phases {
       name
       cards (first: 5) {
         edges {
           node {
             id
-            name
+            title
           }
         }
       }
@@ -44,7 +44,7 @@ Get pipes by their identifiers.
     + Body
 
             {
-                "query": "{ pipes (ids: [123456, 654321]) { id, name, phases { name, cards (first: 5) { edges { node { id, name } } } } } }"
+                "query": "{ pipes (ids: [241213, 654321]) { id name phases { name cards (first: 5) { edges { node { id title } } } } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -204,14 +204,14 @@ Get a pipe by its identifier.
 **Request Body**
 ```
 {
-  pipe(id:123456) {
+  pipe(id: 219739) {
     id
     name
-    phases{
+    phases {
       name
       cards (first: 5) {
-        edges{
-          node{
+        edges {
+          node {
             id
             title
           }
@@ -233,7 +233,7 @@ Get a pipe by its identifier.
     + Body
 
             {
-                "query": "{ pipe(id: 123456) { id, name, phases{ name, cards(first: 5){ edges{ node{ id, title } } } } } }"
+                "query": "{ pipe(id: 219739) { id name phases { name cards(first: 5) { edges { node { id, title } } } } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -325,8 +325,8 @@ Mutation to clone a pipe, in case of success a query is returned.
 mutation {
   clonePipes(
     input: {
-      organization_id: 12345
-      pipe_template_ids: [123456, 654321]
+      organization_id: 65386
+      pipe_template_ids: [211269, 211270]
     }
   ) {
     pipes {
@@ -348,7 +348,7 @@ mutation {
     + Body
 
             {
-                "query": "mutation { clonePipes(input: { organization_id: 12345 pipe_template_ids: [123456, 654321] }) { pipes { id, name } } }"
+                "query": "mutation { clonePipes(input: { organization_id: 65386 pipe_template_ids: [211269, 211270] }) { pipes { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -360,11 +360,11 @@ mutation {
                 "clonePipes": {
                   "pipes": [
                     {
-                      "id": "123456",
+                      "id": "241213",
                       "name": "Secret Project (copy 1)"
                     },
                     {
-                      "id": "123456",
+                      "id": "246366",
                       "name": "Geral (copy 1)"
                     }
                   ]
@@ -381,7 +381,7 @@ Mutation to create a pipe, in case of success a query is returned.
 mutation {
   createPipe(
     input: {
-      organization_id: 12345
+      organization_id: 65386
       name: "Secret Project"
       labels: [
         {name: "Label 01", color: "#FF0042"}
@@ -422,7 +422,7 @@ mutation {
     + Body
 
             {
-                "query": "mutation { createPipe(input: { organization_id: 12345, name: \"Secret Project\", labels: [{ name: \"Label 01\", color:\"#FF0042\"}], members: [{ user_id: 12345, role_name: \"admin\"}, { user_id: 12345, role_name: \"member\"}], phases: [{ name:\"First Step\"}, { name: \"Finished\", done: true }], start_form_fields: [{ label: \"Taks Name\", type_id: \"short_text\", editable: true }, { label: \"Contact Email\", type_id: \"email\" }], preferences: { inboxEmailEnabled: true } }) { pipe { id name } } }"
+                "query": "mutation { createPipe(input: { organization_id: 65386 name: \"Secret Project\" labels: [{ name: \"Label 01\", color:\"#FF0042\"}] members: [{ user_id: 12345, role_name: \"admin\"} { user_id: 12345, role_name: \"member\"}] phases: [{ name:\"First Step\"} { name: \"Finished\", done: true }] start_form_fields: [{ label: \"Taks Name\", type_id: \"short_text\", editable: true } { label: \"Contact Email\", type_id: \"email\" }] preferences: { inboxEmailEnabled: true } }) { pipe { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -433,7 +433,7 @@ mutation {
               "data": {
                 "createPipe": {
                   "pipe": {
-                    "id": "123456",
+                    "id": "236156",
                     "name": "Secret Project"
                   }
                 }
@@ -449,7 +449,7 @@ Mutation to update a pipe, in case of success a query is returned.
 mutation {
   updatePipe(
     input: {
-      id: 123456
+      id: 236156
       icon: "emo"
       title_field_id: "contact_email"
       public: false
@@ -479,7 +479,7 @@ mutation {
     + Body
 
             {
-                "query": "mutation { updatePipe(input: { id: 123456, icon: \"emo\", title_field_id: \"contact_email\", public: false, public_form: true, only_assignees_can_edit_cards: false, anyone_can_create_card: true, expiration_time_by_unit: 2, expiration_unit: 86400 }) { pipe { id name } } }"
+                "query": "mutation { updatePipe(input: { id: 236156 icon: \"emo\" title_field_id: \"contact_email\" public: false public_form: true only_assignees_can_edit_cards: false anyone_can_create_card: true expiration_time_by_unit: 2 expiration_unit: 86400 }) { pipe { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -499,18 +499,18 @@ mutation {
 
 ## Delete pipe [/queries{?delete_pipe}]
 
-Mutation to delete a pipe, in case of success a query is returned.
+Mutation to delete a pipe, in case of success `success: true` is returned.
 
 **Request Body**
 ```
 mutation {
-  deletePipe(input: { id: 123456 }) {
+  deletePipe(input: { id: 236156 }) {
     success
   }
 }
 ```
 
-### deletePipe(input: {id}) [POST]
+### deletePipe(input: {params}) [POST]
 
 + Request (application/json)
 
@@ -521,7 +521,7 @@ mutation {
     + Body
 
             {
-                "query": "mutation { deletePipe(input: { id: 1 }) { success } }"
+                "query": "mutation { deletePipe(input: { id: 236156 }) { success } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -546,7 +546,7 @@ Get a phase by its identifier.
 **Request Body**
 ```
 {
-  phase(id: 1234567) {
+  phase(id: 1741520) {
     id
     name
     cards_count
@@ -576,7 +576,7 @@ Get a phase by its identifier.
     + Body
 
             {
-                "query": "{ phase(id: 1234567) { id name cards_count cards { edges { node { id title } } } fields { id } } }"
+                "query": "{ phase(id: 1741520) { id name cards_count cards { edges { node { id title } } } fields { id } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -586,7 +586,7 @@ Get a phase by its identifier.
             {
               "data": {
                 "phase": {
-                  "id": "1234567",
+                  "id": "1741520",
                   "name": "Discovery",
                   "cards_count": 2,
                   "cards": {
@@ -630,7 +630,7 @@ Mutation to create a phase, in case of success a query is returned.
 mutation {
   createPhase(
     input: {
-      pipe_id: 123456
+      pipe_id: 243587
       name: "First Phase"
       done: false
       lateness_time: 172800
@@ -657,7 +657,7 @@ mutation {
     + Body
 
             {
-                "query": "mutation { createPhase(input: { pipe_id: 123456, name: \"First Phase\", done: false, lateness_time: 172800, description: \"This is the first phase of the secret plan.\", can_receive_card_directly_from_draft: true } ) { phase { id name } } }"
+                "query": "mutation { createPhase(input: { pipe_id: 243587 name: \"First Phase\" done: false lateness_time: 172800 description: \"This is the first phase of the secret plan.\" can_receive_card_directly_from_draft: true } ) { phase { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -684,7 +684,7 @@ Mutation to update a phase, in case of success a query is returned.
 mutation {
   updatePhase(
     input: {
-      id: 1234567
+      id: 1749257
       name: "New name"
       done: true
       description: "New phase description."
@@ -710,7 +710,7 @@ mutation {
     + Body
 
             {
-                "query": "mutation { updatePhase(input: { id: 1234567, name: \"New name\", done: true, description: \"New phase description.\", can_receive_card_directly_from_draft: true }) { phase { id name } } }"
+                "query": "mutation { updatePhase(input: { id: 1749257 name: \"New name\" done: true description: \"New phase description.\" can_receive_card_directly_from_draft: true }) { phase { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -730,18 +730,18 @@ mutation {
 
 ## Delete phase [/queries{?delete_phase}]
 
-Mutation to delete a phase of a pipe, in case of success a query is returned.
+Mutation to delete a phase of a pipe, in case of success `success: true` is returned.
 
 **Request Body**
 ```
 mutation {
-  deletePhase( input: { id: 1234567 }) {
+  deletePhase( input: { id: 1773084 }) {
     success
   }
 }
 ```
 
-### deletePhase(input: {id}) [POST]
+### deletePhase(input: {phase_id}) [POST]
 
 + Request (application/json)
 
@@ -752,7 +752,7 @@ mutation {
     + Body
 
             {
-                "query": "mutation { deletePhase(input: { id: 1234567 }) { success } }"
+                "query": "mutation { deletePhase(input: { id: 1773084 }) { success } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -777,7 +777,7 @@ Mutation to create a phase field, in case of success a query is returned.
 mutation {
   createPhaseField(
     input: {
-      phase_id: 1234567
+      phase_id: 1741519
       type: "radio_horizontal"
       label: "Did you finish the task?"
       options: ["Yes", "No"]
@@ -805,7 +805,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation{ createPhaseField(input: { phase_id: 1234567, type_id: \"radio_horizontal\", label: \"Did you finish the task?\", options: [\"Yes\", \"No\"], description: \"Select if you finish the task or not.\", required: true, help: \"Whether or not you finish the task.\", editable: false } ) { phase_field{ id label } } }"
+                "query": "mutation{ createPhaseField(input: { phase_id: 1741519 type: \"radio_horizontal\" label: \"Did you finish the task?\" options: [\"Yes\", \"No\"] description: \"Select if you finish the task or not.\" required: true help: \"Whether or not you finish the task.\" editable: false } ) { phase_field { id label } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -858,7 +858,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { updatePhaseField(input: {id: \"did_you_finish_the_task\", label: \"Have you finished the task?\", required: false, editable: true }) { phase_field { id label } } }"
+                "query": "mutation { updatePhaseField(input: {id: \"did_you_finish_the_task\" label: \"Have you finished the task?\" required: false editable: true }) { phase_field { id label } } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -878,7 +878,7 @@ mutation {
 
 ## Delete phase field [/queries{?delete_phase_field}]
 
-Mutation to delete a phase field, in case of success a query is returned.
+Mutation to delete a phase field, in case of success `success: true` is returned.
 
 **Request Body**
 ```
@@ -889,7 +889,7 @@ mutation {
 }
 ```
 
-### deletePhaseField(input: {id}) [POST]
+### deletePhaseField(input: {phase_field_id}) [POST]
 
 + Request (application/json)
 
@@ -900,7 +900,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { deletePhaseField(input: {id: \"did_you_finish_the_task\"}) { success } }"
+                "query": "mutation { deletePhaseField(input: {id: \"did_you_finish_the_task\" }) { success } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -925,7 +925,7 @@ Mutation to create a label, in case of success a query is returned.
 mutation {
   createLabel(
     input: {
-      pipe_id: 123456
+      pipe_id: 219739
       name: "Important!"
       color: "#FF0000"
     }
@@ -949,7 +949,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { createLabel(input: {pipe_id: 123456, name: \"Important!\", color: \"#FF0000\"}){ label{ id, name } } }"
+                "query": "mutation { createLabel(input: {pipe_id: 219739 name: \"Important!\" color: \"#FF0000\" }){ label{ id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -960,7 +960,7 @@ mutation {
               "data": {
                 "createLabel": {
                   "label": {
-                    "id": "123456",
+                    "id": "997910",
                     "name": "Important!"
                   }
                 }
@@ -976,7 +976,7 @@ Mutation to update a label, in case of success a query is returned.
 mutation {
   updateLabel(
     input: {
-      id: 123456
+      id: 997910
       name: "Very Important!"
       color: "#FF6347"
     }
@@ -1000,7 +1000,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { updateLabel(input:{id: 123456, name: \"Very Important!\", color: \"#FF6347\"}){ label{ id name } } }" 
+                "query": "mutation { updateLabel(input:{id: 997910 name: \"Very Important!\" color: \"#FF6347\" }){ label{ id name } } }" 
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -1011,7 +1011,7 @@ mutation {
               "data": {
                 "updateLabel": {
                   "label": {
-                    "id": "123456",
+                    "id": "997910",
                     "name": "Very Important!"
                   }
                 }
@@ -1020,18 +1020,18 @@ mutation {
 
 ## Delete label [/queries{?delete_label}]
 
-Mutation to delete a label, in case of success a query is returned.
+Mutation to delete a label, in case of success `success: true` is returned.
 
 **Request Body**
 ```
 mutation {
-  deleteLabel(input: { id: 123456 }) {
+  deleteLabel(input: { id: 997910 }) {
     success
   }
 }
 ```
 
-### deleteLabel(input: {id}) [POST]
+### deleteLabel(input: {label_id}) [POST]
 
 + Request (application/json)
 
@@ -1042,7 +1042,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { deleteLabel(input: {id: 123456}) { success } }"
+                "query": "mutation { deleteLabel(input: {id: 997910}) { success } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -1081,14 +1081,14 @@ mutation{
         {field_id: "email", field_value: "rocky.balboa@email.com"}
         {field_id: "number", field_value: 9000}
         {field_id: "short_text", field_value: "Rocky Balboa"}
-        {field_id: "long_text", field_value: "It ain’t about how hard you hit; it’s about how hard you can get hit and keep moving forward.. It’s how much you can take, and keep moving forward. That’s how winning is done."}
+        {field_id: "long_text", field_value: "It ain’t about how hard you hit. It’s about how hard you can get hit and keep moving forward. It’s how much you can take, and keep moving forward. That’s how winning is done."}
         {field_id: "radio_vertical", field_value: "yes"}
         {field_id: "radio_horizontal", field_value: "no"}
         {field_id: "phone", field_value: "+55 11 1234-5678"}
         {field_id: "select", field_value: "B. Rocky Balboa II"}
         {field_id: "time", field_value: "17:25"}
       ]
-      parent_ids: ["2735966"]
+      parent_ids: ["2750027"]
     }
   ) {
     card {
@@ -1110,7 +1110,7 @@ mutation{
     + Body
 
             { 
-                "query": "mutation{ createCard(input: {pipe_id: 219739, fields_attributes: [{field_id: \"assignee\", field_value: [68310, 87021]}, {field_id: \"checklist_vertical\", field_value: [\"a\", \"b\"]}, {field_id: \"checklist_horizontal\", field_value: [\"b\"]}, {field_id: \"cpf\", field_value: \"123.456.789-00\"}, {field_id: \"cnpj\", field_value: \"12.345.678/1234-00\"}, {field_id: \"date\", field_value: \"1977-01-20\"}, {field_id: \"date_time\", field_value: \"2017-07-20T21:00:00+00:00\"}, {field_id: \"due_date\", field_value: \"2017-07-20T21:00:00+00:00\"}, {field_id: \"currency\", field_value: \"90\"}, {field_id: \"label_select\", field_value: [890073, 908006]}, {field_id: \"email\", field_value: \"rocky.balboa@email.com\"}, {field_id: \"number\", field_value: 9000}, {field_id: \"short_text\", field_value: \"Rocky Balboa\"}, {field_id: \"long_text\", field_value: \"It ain’t about how hard you hit; it’s about how hard you can get hit and keep moving forward.. It’s how much you can take, and keep moving forward. That’s how winning is done.\"}, {field_id: \"radio_vertical\", field_value: \"yes\"}, {field_id: \"radio_horizontal\", field_value: \"no\"}, {field_id: \"phone\", field_value: \"+55 11 1234-5678\"}, {field_id: \"select\", field_value: \"B. Rocky Balboa II\"}, {field_id: \"time\", field_value: \"17:25\"}], parent_ids: [\"2735966\"]}) { card {id title }}}"
+                "query": "mutation{ createCard(input: {pipe_id: 219739 fields_attributes: [{field_id: \"assignee\", field_value: [68310, 87021]} {field_id: \"checklist_vertical\", field_value: [\"a\", \"b\"]} {field_id: \"checklist_horizontal\", field_value: [\"b\"]} {field_id: \"cpf\", field_value: \"123.456.789-00\"} {field_id: \"cnpj\", field_value: \"12.345.678/1234-00\"} {field_id: \"date\", field_value: \"1977-01-20\"} {field_id: \"date_time\", field_value: \"2017-07-20T21:00:00+00:00\"} {field_id: \"due_date\", field_value: \"2017-07-20T21:00:00+00:00\"} {field_id: \"currency\", field_value: \"90\"} {field_id: \"label_select\", field_value: [890073, 908006]} {field_id: \"email\", field_value: \"rocky.balboa@email.com\"} {field_id: \"number\", field_value: 9000} {field_id: \"short_text\", field_value: \"Rocky Balboa\"} {field_id: \"long_text\", field_value: \"It ain’t about how hard you hit. It’s about how hard you can get hit and keep moving forward. It’s how much you can take, and keep moving forward. That’s how winning is done.\"} {field_id: \"radio_vertical\", field_value: \"yes\"} {field_id: \"radio_horizontal\", field_value: \"no\"} {field_id: \"phone\", field_value: \"+55 11 1234-5678\"} {field_id: \"select\", field_value: \"B. Rocky Balboa II\"} {field_id: \"time\", field_value: \"17:25\"}] parent_ids: [\"2735966\"] }) { card {id title }}}"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1121,7 +1121,7 @@ mutation{
               "data": {
                 "createCard": {
                   "card": {
-                    "id": "2748707",
+                    "id": "2762646",
                     "title": "Rocky Balboa"
                   }
                 }
@@ -1137,7 +1137,7 @@ Mutation to update a card, in case of success a query is returned.
 mutation{
   updateCard(
     input: {
-      id: 2748707
+      id: 2762646
       title: "New Title"
       due_date: "2017-08-20T21:00:00+00:00"
       assignee_ids: [68310]
@@ -1163,7 +1163,7 @@ mutation{
     + Body
 
             { 
-                "query": "mutation{ updateCard(input: {id: 2748707, title: \"New Title\", due_date: \"2017-08-20T21:00:00+00:00\", assignee_ids: [68310], label_ids: [890073]}) { card { id title }}}" 
+                "query": "mutation{ updateCard(input: {id: 2762646 title: \"New Title\" due_date: \"2017-08-20T21:00:00+00:00\" assignee_ids: [68310] label_ids: [890073] }) { card { id title }}}" 
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1174,7 +1174,7 @@ mutation{
               "data": {
                 "updateCard": {
                   "card": {
-                    "id": "2748707",
+                    "id": "2762646",
                     "title": "New Title"
                   }
                 }
@@ -1183,18 +1183,18 @@ mutation{
 
 ## Delete card [/queries{?delete_card}]
 
-Mutation to delete a card, in case of success a query is returned. 
+Mutation to delete a card, in case of success `success: true` is returned. 
 
 **Request Body**
 ```
 mutation {
-  deleteCard(input: {id: 2748707}) {
+  deleteCard(input: {id: 2762646}) {
     success
   }
 }
 ```
 
-### deleteCard(input: {id}) [POST]
+### deleteCard(input: {card_id}) [POST]
 
 + Request (application/json)
 
@@ -1205,7 +1205,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation{ deleteCard(input: {id: 2748707}) { success } }" 
+                "query": "mutation{ deleteCard(input: {id: 2762646}) { success } }" 
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1229,7 +1229,7 @@ Mutation to move a card to a phase, in case of success a query is returned.
 mutation {
   moveCardToPhase(
     input: {
-      card_id: 2735966
+      card_id: 2750027
       destination_phase_id: 1624317
     }
   ) {
@@ -1254,7 +1254,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation{ moveCardToPhase(input: {card_id: 2735966, destination_phase_id: 2735966}){ card{ id current_phase{ name } } } }"
+                "query": "mutation{ moveCardToPhase(input: {card_id: 2750027 destination_phase_id: 1624317 }){ card{ id current_phase { name } } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1265,7 +1265,7 @@ mutation {
               "data": {
                 "moveCardToPhase": {
                   "card": {
-                    "id": "2735966",
+                    "id": "2750027",
                     "current_phase": {
                       "name": "doing"
                     }
@@ -1284,13 +1284,12 @@ mutation {
   updateCardField(
     input: {
       card_id: 2750027
-      field_id: "did_you_finish_the_task"
-      new_value: "Yes"
+      field_id: "where_do_you_live"
+      new_value: "Auckland"
     }
   ) {
     card {
       id
-      title
     }
   }
 }
@@ -1307,7 +1306,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation{ updateCardField(input:{card_id: 2750027, field_id: \"did_you_finish_the_task\", new_value: "Yes"}){ card{ id title } } }"
+                "query": "mutation{ updateCardField(input: {card_id: 2750027 field_id: \"where_do_you_live\" new_value: \"Auckland\" }){ card{ id } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1333,7 +1332,7 @@ Mutation to create a comment, in case of success a query is returned.
 mutation {
   createComment(
     input: {
-      card_id: 2611098
+      card_id: 2750027
       text: "Life is like a box of chocolates. You never know what you're gonna get."
     }
   ) {
@@ -1356,7 +1355,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { createComment(input: {card_id: 2611098, text: \"Life is like a box of chocolates. You never know what you're gonna get.\"}) { comment { id text } } }"
+                "query": "mutation { createComment(input: {card_id: 2750027 text: \"Life is like a box of chocolates. You never know what you're gonna get.\" }) { comment { id text } } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -1383,7 +1382,7 @@ Mutation to update a comment, in case of success a query is returned.
 mutation {
   updateComment(
     input: {
-      id: 492421
+      id: 495894
       text: "Let me explain something to you. Um, I am not Mr. Lebowski. You're Mr. Lebowski. I'm the Dude. So that's what you call me. You know, that or, uh, His Dudeness, or uh, Duder, or El Duderino if you're not into the whole brevity thing."
     }
   ) {
@@ -1406,7 +1405,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation{ updateComment(input: {id: 2611098, text: \"Let me explain something to you. Um, I am not Mr. Lebowski. You're Mr. Lebowski. I'm the Dude. So that's what you call me. You know, that or, uh, His Dudeness, or uh, Duder, or El Duderino if you're not into the whole brevity thing.\"}){ comment { id text } } }"
+                "query": "mutation{ updateComment(input: {id: 495894, text: \"Let me explain something to you. Um, I am not Mr. Lebowski. You're Mr. Lebowski. I'm the Dude. So that's what you call me. You know, that or, uh, His Dudeness, or uh, Duder, or El Duderino if you're not into the whole brevity thing.\" }){ comment { id text } } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -1417,7 +1416,7 @@ mutation {
               "data": {
                 "updateComment": {
                   "comment": {
-                    "id": "492421",
+                    "id": "495894",
                     "text": "Let me explain something to you. Um, I am not Mr. Lebowski. You're Mr. Lebowski. I'm the Dude. So that's what you call me. You know, that or, uh, His Dudeness, or uh, Duder, or El Duderino if you're not into the whole brevity thing."
                   }
                 }
@@ -1426,18 +1425,18 @@ mutation {
 
 ## Delete comment [/queries{?delete_comment}]
 
-Mutation to delete a comment, in case of success a query is returned.
+Mutation to delete a comment, in case of success `success: true` is returned.
 
 **Request Body**
 ```
 mutation {
-  deleteComment(input:{id: 492421}) {
+  deleteComment(input:{id: 495894}) {
     success
   }
 }
 ```
 
-### deleteComment(input: {id}) [POST]
+### deleteComment(input: {comment_id}) [POST]
 
 + Request (application/json)
 
@@ -1448,7 +1447,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { deleteComment(input: {id: 492421}) { success } }"
+                "query": "mutation { deleteComment(input: {id: 495894 }) { success } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -1480,7 +1479,7 @@ mutation {
     }
   ) {
     member {
-      user{
+      user {
         id
       }
       role_name
@@ -1500,7 +1499,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { setRole(input: {pipe_id: 219739, member: {user_id: 77303, role_name: \"admin\" } }) { member{ user{ id } role_name } } }"
+                "query": "mutation { setRole(input: {pipe_id: 219739 member: {user_id: 77303 role_name: \"admin\" } }) { member{ user{ id } role_name } } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -1522,7 +1521,7 @@ mutation {
 
 ## Show pipe relations [/queries{?pipe_relations}]
 
-Get a list of pipe relations by their identifiers, with properties and the child name.
+Get pipe relations by their identifiers.
 
 **Request Body**
 ```
@@ -1628,7 +1627,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { createPipeRelation(input: { parent_id: 211269, child_id: 211270, name: \"Connection between pipes\", allChildrenMustBeDoneToFinishParent: false, childMustExistToMoveParent: true, childMustExistToFinishParent: false, allChildrenMustBeDoneToMoveParent: false, canCreateNewItems: true, canConnectExistingItems: true, canConnectMultipleItems: false  }) { pipe_relation { id name } } }"
+                "query": "mutation { createPipeRelation(input: { parentId: 211269 childId: 211270 name: \"Connection between pipes\" allChildrenMustBeDoneToFinishParent: false childMustExistToMoveParent: true childMustExistToFinishParent: false allChildrenMustBeDoneToMoveParent: false canCreateNewItems: true canConnectExistingItems: true canConnectMultipleItems: false  }) { pipeRelation { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1639,7 +1638,7 @@ mutation {
               "data": {
                 "createPipeRelation": {
                   "pipeRelation": {
-                    "id": "5080",
+                    "id": "5115",
                     "name": "Connection between pipes"
                   }
                 }
@@ -1655,7 +1654,7 @@ Mutation to update a pipe relation, in case of success a query is returned.
 mutation {
   updatePipeRelation(
     input: {
-      id: 5080
+      id: 5115
       name: "New relation name"
       allChildrenMustBeDoneToFinishParent: true
       childMustExistToMoveParent: false
@@ -1685,7 +1684,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { updatePipeRelation(input: {id: 5080, name: \"New relation name\", allChildrenMustBeDoneToFinishParent: true, childMustExistToMoveParent: false, childMustExistToFinishParent: false, allChildrenMustBeDoneToMoveParent: true, canCreateNewItems: false, canConnectExistingItems: true, canConnectMultipleItems: false}) { pipe_relation { id, name, parent_id, child_id, can_create_connected_cards, can_search_connected_cards, can_connect_multiple_cards, child_must_exist_to_move_parent, child_must_exist_to_finish_parent, all_children_must_be_done_to_move_parent, all_children_must_be_done_to_finish_parent } } }"
+                "query": "mutation { updatePipeRelation(input: {id: 5115 name: \"New relation name\" allChildrenMustBeDoneToFinishParent: true childMustExistToMoveParent: false childMustExistToFinishParent: false allChildrenMustBeDoneToMoveParent: true canCreateNewItems: false canConnectExistingItems: true canConnectMultipleItems: false }) { pipeRelation { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1696,7 +1695,7 @@ mutation {
               "data": {
                 "updatePipeRelation": {
                   "pipeRelation": {
-                    "id": "5080",
+                    "id": "5115",
                     "name": "New relation name"
                   }
                 }
@@ -1705,18 +1704,18 @@ mutation {
 
 ## Delete pipe relation [/queries{?delete_pipe_relation}]
 
-Mutation to delete a pipe relation, in case of success a query is returned.
+Mutation to delete a pipe relation, in case of success `success: true` is returned.
 
 **Request Body**
 ```
 mutation {
-  deletePipeRelation(input:{id: 5080}) {
+  deletePipeRelation(input:{id: 5115}) {
     success
   }
 }
 ```
 
-### deletePipeRelation(input: {id}) [POST]
+### deletePipeRelation(input: {pipe_relation_id}) [POST]
 
 + Request (application/json)
 
@@ -1727,7 +1726,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { deletePipeRelation(input: {id: 5080}) { success } }"
+                "query": "mutation { deletePipeRelation(input: {id: 5115}) { success } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1778,7 +1777,7 @@ mutation{
     + Body
 
             { 
-                "query": "mutation { createWebhook(input: { pipe_id: 219739, name: \"New Webhook\", email: \"severo.snape@gmail.com\", url: \"www.myurl.com/queries", actions: [\"card.create\", \"card.done\"], headers: \"{\\\"foo\\\": \\\"bar\\\"}\" }) { webhook { id name } } }"
+                "query": "mutation { createWebhook(input: { pipe_id: 219739 name: \"New Webhook\" email: \"severo.snape@gmail.com\" url: \"www.myurl.com/queries\" actions: [\"card.create\", \"card.done\"] headers: \"{\\\"foo\\\": \\\"bar\\\"}\" }) { webhook { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1789,7 +1788,7 @@ mutation{
               "data": {
                 "createWebhook": {
                   "webhook": {
-                    "id": "204",
+                    "id": "206",
                     "name": "New Webhook"
                   }
                 }
@@ -1805,7 +1804,7 @@ Mutation to update a webhook, in case of success a query is returned.
 mutation{
   updateWebhook(
     input: {
-      id: 204
+      id: 206
       email: "newemail@pipefy.com"
       actions: ["card.create", "card.move"]
     }
@@ -1830,7 +1829,7 @@ mutation{
     + Body
 
             { 
-                "query": "mutation { updateWebhook(input: { id: 204, email: \"newemail@pipefy.com\", actions: [\"card.create\", \"card.move\"]}) { webhook { id email actions } } }"
+                "query": "mutation { updateWebhook(input: { id: 206 email: \"newemail@pipefy.com\" actions: [\"card.create\", \"card.move\"]}) { webhook { id email actions } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1841,7 +1840,7 @@ mutation{
               "data": {
                 "updateWebhook": {
                   "webhook": {
-                    "id": "204",
+                    "id": "206",
                     "email": "newemail@pipefy.com",
                     "actions": [
                       "card.create",
@@ -1854,18 +1853,18 @@ mutation{
 
 ## Delete webhook [/queries{?delete_webhook}]
 
-Mutation to delete a webhook, in case of success a query is returned.
+Mutation to delete a webhook, in case of success `success: true` is returned.
 
 **Request Body**
 ```
 mutation{
-  deleteWebhook(input:{id: 204}) {
+  deleteWebhook(input:{id: 206}) {
     success
   }
 }
 ```
 
-### deleteWebhook(input: {id}) [POST]
+### deleteWebhook(input: {webhook_id}) [POST]
 
 + Request (application/json)
 
@@ -1876,7 +1875,7 @@ mutation{
     + Body
 
             { 
-                "query": "mutation { deleteWebhook(input: { id: 204 }) { success } }"
+                "query": "mutation { deleteWebhook(input: { id: 206 }) { success } }"
             }
 
 + Response 200 (application/json; charset=utf-8)

@@ -387,8 +387,8 @@ mutation {
         {name: "Label 01", color: "#FF0042"}
       ]
       members: [
-        {user_id: 68310, role_name: "admin"}
-        {user_id: 83956, role_name: "member"}
+        {user_id: 00000, role_name: "admin"}
+        {user_id: 00001, role_name: "member"}
       ]
       phases: [
         {name: "First Step"}
@@ -422,7 +422,7 @@ mutation {
     + Body
 
             {
-                "query": "mutation { createPipe(input: { organization_id: 65386 name: \"Secret Project\" labels: [{ name: \"Label 01\", color:\"#FF0042\"}] members: [{ user_id: 12345, role_name: \"admin\"} { user_id: 12345, role_name: \"member\"}] phases: [{ name:\"First Step\"} { name: \"Finished\", done: true }] start_form_fields: [{ label: \"Taks Name\", type_id: \"short_text\", editable: true } { label: \"Contact Email\", type_id: \"email\" }] preferences: { inboxEmailEnabled: true } }) { pipe { id name } } }"
+                "query": "mutation { createPipe(input: { organization_id: 65386 name: \"Secret Project\" labels: [{ name: \"Label 01\", color:\"#FF0042\"}] members: [{ user_id: 00000, role_name: \"admin\"} { user_id: 00001, role_name: \"member\"}] phases: [{ name:\"First Step\"} { name: \"Finished\", done: true }] start_form_fields: [{ label: \"Taks Name\", type_id: \"short_text\", editable: true } { label: \"Contact Email\", type_id: \"email\" }] preferences: { inboxEmailEnabled: true } }) { pipe { id name } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1378,7 +1378,7 @@ mutation{
     input: {
       pipe_id: 219739
       fields_attributes: [
-        {field_id: "assignee", field_value:[68310, 87021]}
+        {field_id: "assignee", field_value:[00000, 00001]}
         {field_id: "checklist_vertical", field_value: ["a", "b"]}
         {field_id: "checklist_horizontal", field_value: ["b"]}
         {field_id: "cpf", field_value: "123.456.789-00"}
@@ -1420,7 +1420,7 @@ mutation{
     + Body
 
             { 
-                "query": "mutation{ createCard(input: {pipe_id: 219739 fields_attributes: [{field_id: \"assignee\", field_value: [68310, 87021]} {field_id: \"checklist_vertical\", field_value: [\"a\", \"b\"]} {field_id: \"checklist_horizontal\", field_value: [\"b\"]} {field_id: \"cpf\", field_value: \"123.456.789-00\"} {field_id: \"cnpj\", field_value: \"12.345.678/1234-00\"} {field_id: \"date\", field_value: \"1977-01-20\"} {field_id: \"date_time\", field_value: \"2017-07-20T21:00:00+00:00\"} {field_id: \"due_date\", field_value: \"2017-07-20T21:00:00+00:00\"} {field_id: \"currency\", field_value: \"9500.50\"} {field_id: \"label_select\", field_value: [890073, 908006]} {field_id: \"email\", field_value: \"rocky.balboa@email.com\"} {field_id: \"number\", field_value: 9000} {field_id: \"short_text\", field_value: \"Rocky Balboa\"} {field_id: \"long_text\", field_value: \"It ain’t about how hard you hit. It’s about how hard you can get hit and keep moving forward. It’s how much you can take, and keep moving forward. That’s how winning is done.\"} {field_id: \"radio_vertical\", field_value: \"yes\"} {field_id: \"radio_horizontal\", field_value: \"no\"} {field_id: \"phone\", field_value: \"+55 11 1234-5678\"} {field_id: \"select\", field_value: \"B. Rocky Balboa II\"} {field_id: \"time\", field_value: \"17:25\"}] parent_ids: [\"2735966\"] }) { card {id title }}}"
+                "query": "mutation{ createCard(input: {pipe_id: 219739 fields_attributes: [{field_id: \"assignee\", field_value: [00000, 00001]} {field_id: \"checklist_vertical\", field_value: [\"a\", \"b\"]} {field_id: \"checklist_horizontal\", field_value: [\"b\"]} {field_id: \"cpf\", field_value: \"123.456.789-00\"} {field_id: \"cnpj\", field_value: \"12.345.678/1234-00\"} {field_id: \"date\", field_value: \"1977-01-20\"} {field_id: \"date_time\", field_value: \"2017-07-20T21:00:00+00:00\"} {field_id: \"due_date\", field_value: \"2017-07-20T21:00:00+00:00\"} {field_id: \"currency\", field_value: \"9500.50\"} {field_id: \"label_select\", field_value: [890073, 908006]} {field_id: \"email\", field_value: \"rocky.balboa@email.com\"} {field_id: \"number\", field_value: 9000} {field_id: \"short_text\", field_value: \"Rocky Balboa\"} {field_id: \"long_text\", field_value: \"It ain’t about how hard you hit. It’s about how hard you can get hit and keep moving forward. It’s how much you can take, and keep moving forward. That’s how winning is done.\"} {field_id: \"radio_vertical\", field_value: \"yes\"} {field_id: \"radio_horizontal\", field_value: \"no\"} {field_id: \"phone\", field_value: \"+55 11 1234-5678\"} {field_id: \"select\", field_value: \"B. Rocky Balboa II\"} {field_id: \"time\", field_value: \"17:25\"}] parent_ids: [\"2735966\"] }) { card {id title }}}"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1450,7 +1450,7 @@ mutation{
       id: 2762646
       title: "New Title"
       due_date: "2017-08-20T21:00:00+00:00"
-      assignee_ids: [68310]
+      assignee_ids: [00000]
       label_ids: [890073]
     }
   ) {
@@ -1473,7 +1473,7 @@ mutation{
     + Body
 
             { 
-                "query": "mutation{ updateCard(input: {id: 2762646 title: \"New Title\" due_date: \"2017-08-20T21:00:00+00:00\" assignee_ids: [68310] label_ids: [890073] }) { card { id title }}}" 
+                "query": "mutation{ updateCard(input: {id: 2762646 title: \"New Title\" due_date: \"2017-08-20T21:00:00+00:00\" assignee_ids: [00000] label_ids: [890073] }) { card { id title }}}" 
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -1783,7 +1783,7 @@ mutation {
     input: {
       pipe_id: 219739
       member: {
-        user_id: 77303
+        user_id: 00000
         role_name: "admin"
       }
     }
@@ -1809,7 +1809,7 @@ mutation {
     + Body
 
             { 
-                "query": "mutation { setRole(input: {pipe_id: 219739 member: {user_id: 77303 role_name: \"admin\" } }) { member{ user{ id } role_name } } }"
+                "query": "mutation { setRole(input: {pipe_id: 219739 member: {user_id: 00000 role_name: \"admin\" } }) { member{ user{ id } role_name } } }"
             }
             
 + Response 200 (application/json; charset=utf-8)
@@ -1821,7 +1821,7 @@ mutation {
                 "setRole": {
                   "member": {
                     "user": {
-                      "id": "77303"
+                      "id": "00000"
                     },
                     "role_name": "admin"
                   }

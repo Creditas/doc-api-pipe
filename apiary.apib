@@ -207,9 +207,21 @@ Get a pipe by its identifier.
   pipe(id: 219739) {
     id
     name
+    start_form_fields {
+      label
+      id
+    }
+    labels {
+      name
+      id
+    }
     phases {
       name
-      cards (first: 5) {
+      fields {
+        label
+        id
+      }
+      cards(first: 5) {
         edges {
           node {
             id
@@ -233,7 +245,7 @@ Get a pipe by its identifier.
     + Body
 
             {
-                "query": "{ pipe(id: 219739) { id name phases { name cards(first: 5) { edges { node { id, title } } } } } }"
+                "query": "{ pipe(id: 219739) { id name start_form_fields { label id } labels { name id } phases { name fields { label id } cards(first: 5) { edges { node { id, title } } } } } }"
             }
 
 + Response 200 (application/json; charset=utf-8)
@@ -245,9 +257,46 @@ Get a pipe by its identifier.
                 "pipe": {
                   "id": "243585",
                   "name": "Simple To-do List",
+                  "start_form_fields": [
+                    {
+                      "label": "What do you have to do?",
+                      "id": "what_do_you_have_to_do"
+                    },
+                    {
+                      "label": "Task priority",
+                      "id": "task_priority"
+                    },
+                    {
+                      "label": "Due date",
+                      "id": "due_date_1"
+                    }
+                  ],
+                  "labels": [
+                    {
+                      "name": "Critical",
+                      "id": "979883"
+                    },
+                    {
+                      "name": "Top Priority",
+                      "id": "979884"
+                    },
+                    {
+                      "name": "Neutral",
+                      "id": "979885"
+                    },
+                    {
+                      "name": "Low Priority",
+                      "id": "979886"
+                    },
+                    {
+                      "name": "Unknown",
+                      "id": "979887"
+                    }
+                  ],
                   "phases": [
                     {
                       "name": "To do",
+                      "fields": [],
                       "cards": {
                         "edges": [
                           {
@@ -261,6 +310,7 @@ Get a pipe by its identifier.
                     },
                     {
                       "name": "Doing",
+                      "fields": [],
                       "cards": {
                         "edges": [
                           {
@@ -280,6 +330,7 @@ Get a pipe by its identifier.
                     },
                     {
                       "name": "On hold",
+                      "fields": [],
                       "cards": {
                         "edges": [
                           {
@@ -293,6 +344,7 @@ Get a pipe by its identifier.
                     },
                     {
                       "name": "Done",
+                      "fields": [],
                       "cards": {
                         "edges": [
                           {
@@ -306,6 +358,7 @@ Get a pipe by its identifier.
                     },
                     {
                       "name": "Archived",
+                      "fields": [],
                       "cards": {
                         "edges": []
                       }
